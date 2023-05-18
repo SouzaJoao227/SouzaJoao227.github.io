@@ -54,6 +54,7 @@
   <main id="content" class="main-content" role="main">
     <h1 id="souzajoao227githubio">Arquitetura do twitter</h1>
     <p>Estudo sobre a a arquitetura do twitter</p>
+    <p>Índices</p>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">
         <span class="d-block d-lg-none">
@@ -70,9 +71,6 @@
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#changes">Requisitos e mudanças</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#skills">Habilidades</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#ref">Referências</a>
@@ -138,7 +136,7 @@
               </p>
               <p>
                 <span class="d-none d-lg-block">
-                  <img  src="img/DB.png" alt="">
+                  <img src="img/DB.png" alt="">
                 </span>
               </p>
               <p>
@@ -146,11 +144,132 @@
               </p>
               <p>
                 <span class="d-none d-lg-block">
-                  <img  src="img/DB2.png" alt="">
+                  <img src="img/DB2.png" alt="">
+                </span>
+              </p>
+              <p>
+                É abordado a mudança da hospedagem do twitter do modelo de hospedagem de terceiros para um data center,
+                ainda em 2010, com o intuito de suportar a forma e velocidade que o twitter estava escalando. Em 2015
+                foi necessária algumas mudanças no datacenter devido ao fato de não estar aguentando o crescimento de
+                acordo com as necessidades, para isso foi feita conversão para Topologia Clos + BGP.
+
+              </p>
+              <p>
+                A topologia Clos é usado para obter altos níveis de banda passante para vários dispositivos propriamente
+                interconectados com switchs menores[3], já BGP é um protocolo de roteamento que toma decisões de
+                roteamento a partir de regras ou políticas de rede definidas por administradores de rede, e assim,
+                conseguirá auxiliar os roteadores a se adaptarem aos erros ou falhas de uma determinada rota[4], com
+                isso a rede do datacenter fica como está ilustrado na imagem abaixo:
+
+              </p>
+              <p>
+                <span class="d-none d-lg-block">
+                  <img src="img/Arch.png" alt="">
+                </span>
+              </p>
+              <p>
+                Alguns destaques dessa nova abordagem foram:
+                -Menor sobrecarga de CPU do mecanismo de roteamento.
+                -Processamento mais eficiente de atualizações de rota.
+                -Maior capacidade de rota devido à menor sobrecarga da CPU.
+
+              </p>
+              <p>Milhões de tweets são enviados todos os dias, e eles têm que ser processados, armazenados em banco,
+                armazenados em cache e também analisados. Essa quantidade de conteúdo representa 45% de toda
+                infraestrutura do Twitter. Os serviços usados pelas equipes do Twitter são: Os clusters Hadoop,
+                Manhattan, Blobstore, clusters de cachem clusters de mensagens, e bancos relacionais (MySQL, PostgreSQL,
+                Vertica).
+              </p>
+              <p>
+                O Twitter passou por vários bancos de dados, começando pelo MySQL que está presente desde o começo do
+                Twitter, mas em 2010 o Twitter começou a utilizar e até mesmo criar outras estruturas/bancos para
+                armazenar os dados. O primeiro foi o Gizzard que foi lançado em 2010, e após o seu lançamento foi
+                apresentado também o FlockDB que é uma solução de armazenamento de gráficos sobre o Gizzard e o MySQL.
+                Em junho de 2010, o Snowflake também foi anunciado, sendo um serviço usado como identificador exclusivo.
+                Ainda em 2010 veio o Hadoop já citado acima, que originalmente foi destinado a armazenar backups do
+                MySQL, e até o momento da publicação desse artigo no blog (2017) ele foi usado para análises.
+
+              </p>
+              <p>
+                Um dos últimos acréscimos a estrutura do Twitter em 2010, foi o Cassandra como uma solução de
+                armazenamento, mas que não substituiu totalmente o MySQL (MySQL continua sendo usado até então). Mesmo
+                com essas ferramentas e recursos, foi visto a necessidade de aumentar o cluster e, em abril de 2014, foi
+                lançado pelo Twitter o Manhattan, que é o banco de dados distribuído em tempo real. Desde então o
+                Manhattan se tornou a opção mais comum e viável e o Cassandra foi sendo cada vez menos usado. Abaixo uma
+                imagem ilustrando o uso de cada ferramenta na arquitetura do Twitter:
+
+              </p>
+              <p>
+                <span class="d-none d-lg-block">
+                  <img src="img/graph.png" alt="">
+                </span>
+              </p>
+              <p>
+                Na imagem tem a ferramenta Blobstore que é usado para permitir uploads de fotos nativas e que foi
+                lançado em 2012 pelo Twitter.
+              </p>
+              <p>
+                O Cache no momento da publicação deste artigo representa cerca de 3% da infraestrutura do Twitter, mas
+                mesmo assim é uma parte fundamental. Ele é usado para tráfegos de leitura pesada, e permite armazenar
+                objetos que têm custos altos. Algumas tecnologias de cache usadas são Redis e Twemcache.
+
+              </p>
+              <p>
+                No artigo é mostrado a quantidade de linhas de código, onde é dito que ultrapassa 1 milhão de linhas de
+                códigos, e que foi feito uma limpa nos códigos com intuito de reduzir código morto e duplicado, na
+                imagem abaixo é mostrado o gráfico da quantidade de linhas do período de 2008 até 2017:
+
+              </p>
+              <p>
+                <span class="d-none d-lg-block">
+                  <img src="img/linesCode.png" alt="">
+                </span>
+              </p>
+              <p>
+                A quantidade de arquivos também reduziu, juntamente com o tamanho médio dos arquivos, abaixo as imagens
+                representando as duas afirmações:
+
+              </p>
+              <p>
+                <span class="d-none d-lg-block">
+                  <img src="img/fileCount.png" alt="">
+                </span>
+              </p>
+              <p>
+                <span class="d-none d-lg-block">
+                  <img src="img/AvgFileSize.png" alt="">
                 </span>
               </p>
             </div>
           </div>
+          <section class="resume-section p-3 p-lg-5 d-flex d-column" id="ref">
+            <div class="my-auto">
+              <h2 class="mb-5">Referências</h2>
+
+              <div class="resume-item d-flex flex-column flex-md-row mb-5">
+                <div class="resume-content mr-auto">
+                  <h3 class="mb-0">Link principais</h3>
+                  <p>
+                    <a href="https://www.infoq.com/br/news/2009/07/Twitter-Architecture/"></a>
+                    Twitter-Architecture
+                  </p>
+                  <p>
+                    <a href="https://blog.twitter.com/engineering/en_us/topics/infrastructure/2017/the-infrastructure-behind-twitter-scale"></a>
+                    Twitter-infrastructure
+                  </p>
+                  <p>
+                    <a href="https://www.gta.ufrj.br/ensino/eel879/trabalhos_vf_2010_2/camilla/Topologia.htm#:~:text=Está%20 topologia%20foi%20 desenvolvida%20por,%2C%20 possui%20k%2F2%20 switches"></a>
+                    Twitter-topologia
+                  </p>
+                  <p>
+                    <a href="https://esr.rnp.br/administracao-e-projeto-de-redes/protocolo-bgp-2/#:~:text=O%20protocolo%20BGP%20%C3%A9%20aquele,falhas%20de%20uma%20determinada%20rota"></a>
+                    Twitter-protocolos
+                  </p>
+
+                </div>
+              </div>
+          </section>
+
       </section>
     </div>
     <footer class="site-footer">
